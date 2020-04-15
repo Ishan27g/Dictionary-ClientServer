@@ -2,13 +2,13 @@
 
 public class message {
 	
-	private clientAction action = null;
+	private messageAction action = null;
 	private String word = null;
 	private String content = null;
 	
 	private StringBuilder builder = null;
 
-	public message(clientAction action, String word, String content) {
+	public message(messageAction action, String word, String content) {
 		this.action = action;
 		this.word = new String(word);
 		if(content.length() != 0) {
@@ -43,6 +43,19 @@ public class message {
 		builder.append("<message>");
 		builder.append("<action>" + action + "</action>");
 		builder.append("<word>" + word + "</word>");
+		builder.append("</message>");
+				
+	}
+	
+	public void build_server_rspXml() {
+
+		builder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		builder.append("<message>");
+		builder.append("<action>" + action + "</action>");
+		builder.append("<word>" + word + "</word>");
+		if(content.length() != 0) {
+			builder.append("<content>" + content + "</content>");
+		}
 		builder.append("</message>");
 				
 	}

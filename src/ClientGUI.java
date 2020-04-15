@@ -118,7 +118,7 @@ public class ClientGUI {
      		   	String inputMeaning = JOptionPane.showInputDialog(frame.getContentPane(), "Definition : ");
      	        JOptionPane.showMessageDialog(frame.getContentPane(), "User entered :\n" + inputMeaning);
       	      
-     	        DictClient add = new DictClient(clientAction.WORD_ADD, inputWord, inputMeaning);
+     	        DictClient add = new DictClient(messageAction.WORD_ADD, inputWord, inputMeaning);
      	        add.build_post_msg();
      	        //add.sendMsg();
      	        
@@ -133,7 +133,7 @@ public class ClientGUI {
 				String inputWord = JOptionPane.showInputDialog(frame.getContentPane(), "Enter the word : ");
      	        JOptionPane.showMessageDialog(frame.getContentPane(), "You entered :\n" + inputWord);
      	        
-     	        DictClient get = new DictClient(clientAction.WORD_GET, inputWord, "");
+     	        DictClient get = new DictClient(messageAction.WORD_GET, inputWord, "");
      	        get.build_edit_msg();
      	       // get.sendMsg();
      	       
@@ -150,7 +150,7 @@ public class ClientGUI {
 				String inputWord = JOptionPane.showInputDialog(frame.getContentPane(), "Word : ");
      	        JOptionPane.showMessageDialog(frame.getContentPane(), "User entered :\n" + inputWord);
     	        
-    	        DictClient del = new DictClient(clientAction.WORD_DELETE, inputWord, "");
+    	        DictClient del = new DictClient(messageAction.WORD_DELETE, inputWord, "");
     	        del.build_edit_msg();
      	       // del.sendMsg();
     	        text1.setText(client.SendMsg(del.getMsgString()));   	 
