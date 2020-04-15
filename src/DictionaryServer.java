@@ -28,7 +28,7 @@ public class DictionaryServer {
 			
 /* 	Option 1 : 
  *  
- *  New thread per client, up to MAX_CLIENTS will be serviced at a time
+ *  New thread per client, infinite clients can be serviced
  *  	- define max number of threads
  *  	- on new connection, increase thread count
  *  	- on exit of thread, reduce thread count
@@ -37,40 +37,43 @@ public class DictionaryServer {
  *  		application performance will degrade surely
  */
 
-		int MAX_CLIENTS = 5;
+		int MAX_CONCURRENT_THREADS = 3;
 		int thread_count = 0;
 		
 		
 		
 		//for(thread_count = 0; thread_count< MAX_REQUESTS; thread_count++) {
-		while(thread_count < MAX_CLIENTS) {
-			/*try {
-				server_socket.accept_connections();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}*/
-			System.out.println("Starting thread " + thread_count);
-			
-			Runnable thr = new serviceThread(server_socket, dictionary);
-			thread_count++;
-			thr.run();
-			thread_count--;
+		while(true) {
+		
+			if(Thread.activeCount() < MAX_CONCURRENT_THREADS) {
+				
+				System.out.println("Active threads: " + Thread.activeCount());
+				
+				System.out.println("Starting thread " + thread_count);
+				thread_count++;
+				
+				try {
+					server_socket.accept_connections();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
+				Runnable thr = new serviceThread(server_socket, dictionary);
+				Thread th = new Thread(thr);
+				th.start();
+				
+				/*try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}*/
+			}
+			//th.
+			//thread_count--;
 		}
 		
-		
-		/*
-		while(thread_count < MAX_REQUESTS) {
-			
-			thr[thread_count] = new serviceThread(server_socket, dictionary);
-			thread_count++;
-			thr[thread_count-1].run();
-			thread_count--;
-			server_socket.closeConnection();
-		}
-		
-		*/
-		
-		server_socket.closeConnection();
+		//server_socket.closeConnection();
 		
 		
 		 /* 

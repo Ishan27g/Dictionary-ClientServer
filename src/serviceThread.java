@@ -31,14 +31,17 @@ public class serviceThread implements Runnable{
 
 		
 		//System.out.println("ashdkajsda");
-		try {
-			Thread.sleep(3000);
+		/*try {
+			System.out.println("Thread["+Thread.currentThread().getId()+"] Start");
+			Thread.sleep(10000);
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-			/*while(true) {
+
+		System.out.println("Thread["+Thread.currentThread().getId()+"] End");
+*/
+			while(true) {
 				
 				response = new String(server_socket.readRsp());
 				
@@ -79,7 +82,7 @@ public class serviceThread implements Runnable{
 				    e.printStackTrace();  
 				} 
 			}
-			*/
+			
 			
 	}
 
