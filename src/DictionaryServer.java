@@ -40,8 +40,14 @@ public class DictionaryServer {
 		int thread_count = 0;
 		
 		
+		
 		for(thread_count = 0; thread_count< MAX_CLIENTS; thread_count++) {
 			System.out.println("Starting thread " + thread_count);
+			try {
+				server_socket.accept_connections();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 			thr[thread_count] = new serviceThread(server_socket, dictionary);
 			thr[thread_count].run();
 		}
