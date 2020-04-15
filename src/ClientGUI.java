@@ -20,7 +20,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 public class ClientGUI {
 
 	
-	MessageStream_client client;
+	static MessageStream_client client;
 	private JFrame frame;
 	JTextArea text1 = new JTextArea();
 	
@@ -30,6 +30,13 @@ public class ClientGUI {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		try {
+			client = new MessageStream_client();
+		} catch (UnknownHostException e1) {
+			e1.printStackTrace();
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -112,21 +119,10 @@ public class ClientGUI {
       	      
      	        DictClient add = new DictClient(messageAction.WORD_ADD, inputWord, inputMeaning);
      	        add.build_post_msg();
-     	        try {
-     				client = new MessageStream_client();
-     			} catch (UnknownHostException e1) {
-     				e1.printStackTrace();
-     			} catch (IOException e2) {
-     				e2.printStackTrace();
-     			}
+     	        
      	        client.SendMsg(add.getMsgString());
      	        text1.setText(client.readRsp());
-     	        try {
-					client.closeConnection();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+     	       
     	  
 			}
 		});
@@ -143,13 +139,7 @@ public class ClientGUI {
      	       
      	        client.SendMsg(get.getMsgString());
      	        text1.setText(client.readRsp());
-     	        try {
-					client.closeConnection();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-     	        
+     	      
    	 
 			}
 		});
@@ -165,18 +155,15 @@ public class ClientGUI {
     	        
     	        client.SendMsg(del.getMsgString());
      	        text1.setText(client.readRsp());
-     	        try {
-					client.closeConnection();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}   	 
+     	          	 
      	    }
 		});
 		
 		frame.getContentPane().setLayout(groupLayout);
 		frame.setBounds(100, 100, 692, 387);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		
 		
 	}
 }

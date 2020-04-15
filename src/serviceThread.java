@@ -24,20 +24,20 @@ public class serviceThread implements Runnable{
 	public serviceThread(MessageStream socket, DictionaryData dictionary) {
 		this.server_socket = socket;
 		this.dictionary = dictionary;
-		
 	}
 	
 	@Override
 	public void run() {
 
 		
-		try {
+		//System.out.println("ashdkajsda");
+		/*try {
 			Thread.sleep(30000);
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
-		/*
+		}*/
+		
 			while(true) {
 				
 				response = new String(server_socket.readRsp());
@@ -79,7 +79,7 @@ public class serviceThread implements Runnable{
 				    e.printStackTrace();  
 				} 
 			}
-			*/
+			
 			
 	}
 
