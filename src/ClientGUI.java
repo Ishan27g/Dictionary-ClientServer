@@ -47,15 +47,7 @@ public class ClientGUI {
 	 */
 	public ClientGUI() {
 		initialize();
-		try {
-			client = new MessageStream_client();
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 
 	/**
@@ -120,9 +112,21 @@ public class ClientGUI {
       	      
      	        DictClient add = new DictClient(messageAction.WORD_ADD, inputWord, inputMeaning);
      	        add.build_post_msg();
-     	        //add.sendMsg();
+     	        try {
+     				client = new MessageStream_client();
+     			} catch (UnknownHostException e1) {
+     				e1.printStackTrace();
+     			} catch (IOException e2) {
+     				e2.printStackTrace();
+     			}
      	        client.SendMsg(add.getMsgString());
      	        text1.setText(client.readRsp());
+     	        try {
+					client.closeConnection();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
     	  
 			}
 		});
@@ -139,7 +143,12 @@ public class ClientGUI {
      	       
      	        client.SendMsg(get.getMsgString());
      	        text1.setText(client.readRsp());
-		
+     	        try {
+					client.closeConnection();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
      	        
    	 
 			}
@@ -156,8 +165,12 @@ public class ClientGUI {
     	        
     	        client.SendMsg(del.getMsgString());
      	        text1.setText(client.readRsp());
-     	       // del.sendMsg();
-    	        //text1.setText(client.SendMsg(del.getMsgString()));   	 
+     	        try {
+					client.closeConnection();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}   	 
      	    }
 		});
 		
