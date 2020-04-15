@@ -7,6 +7,9 @@ import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.UnknownHostException;
+
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.GroupLayout;
@@ -16,6 +19,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class ClientGUI {
 
+	
+	MessageStream_client client;
 	private JFrame frame;
 	JTextArea text1 = new JTextArea();
 	
@@ -42,6 +47,15 @@ public class ClientGUI {
 	 */
 	public ClientGUI() {
 		initialize();
+		try {
+			client = new MessageStream_client();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -49,8 +63,6 @@ public class ClientGUI {
 	 */
 	private void initialize() {
 
-	
-		
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(102, 153, 204));
 		
@@ -60,9 +72,7 @@ public class ClientGUI {
 		
 		text1.setLineWrap(true);
 		text1.setText("");
-		
 
-		
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -100,6 +110,7 @@ public class ClientGUI {
 		AddButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				text1.setText("");
 				
 				String inputWord = JOptionPane.showInputDialog(frame.getContentPane(), "Word : ");
      	        JOptionPane.showMessageDialog(frame.getContentPane(), "User entered :\n " + inputWord);
@@ -109,9 +120,9 @@ public class ClientGUI {
       	      
      	        DictClient add = new DictClient(clientAction.WORD_ADD, inputWord, inputMeaning);
      	        add.build_post_msg();
-     	        add.sendMsg();
-				text1.setText("");
-				text1.setText("sent message : \n" + add.getMsgString());
+     	        //add.sendMsg();
+     	        
+     	        text1.setText(client.SendMsg(add.getMsgString()));
     	  
 			}
 		});
@@ -124,8 +135,11 @@ public class ClientGUI {
      	        
      	        DictClient get = new DictClient(clientAction.WORD_GET, inputWord, "");
      	        get.build_edit_msg();
-     	        get.sendMsg();
-     	        text1.setText("sent message : \n" + get.getMsgString());
+     	       // get.sendMsg();
+     	       
+     	        text1.setText(client.SendMsg(get.getMsgString()));
+     	        
+     	        
    	 
 			}
 		});
@@ -138,9 +152,8 @@ public class ClientGUI {
     	        
     	        DictClient del = new DictClient(clientAction.WORD_DELETE, inputWord, "");
     	        del.build_edit_msg();
-     	        del.sendMsg();
-     	        text1.setText("sent message : \n" + del.getMsgString());
-   	 
+     	       // del.sendMsg();
+    	        text1.setText(client.SendMsg(del.getMsgString()));   	 
      	    }
 		});
 		
