@@ -24,8 +24,7 @@ public class DictionaryServer {
 		//DictionaryData dictionary = new DictionaryData("/Users/ishan/Downloads/dictionary.csv");
 		
 		dictionary.load_dictionary();
-		System.out.println(dictionary.getSize());
-		System.out.println(dictionary.searchKey("Salm"));
+		
 			
 /* 	Option 1 : 
  *  
