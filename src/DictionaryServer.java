@@ -10,8 +10,7 @@ import java.io.IOException;
  *
  */
 public class DictionaryServer {
-	static Runnable thr[] = null;
-
+	
 	/**
 	 * @param args
 	 */
@@ -39,17 +38,19 @@ public class DictionaryServer {
 		int MAX_REQUESTS = 5;
 		int thread_count = 0;
 		
+		try {
+			server_socket.accept_connections();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
 		//for(thread_count = 0; thread_count< MAX_REQUESTS; thread_count++) {
 		while(thread_count < MAX_REQUESTS) {
-			try {
-				server_socket.accept_connections();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			
 			System.out.println("Starting thread " + thread_count);
 			
-			thr[thread_count] = new serviceThread(server_socket, dictionary);
-			thr[thread_count].run();
+			Runnable thr = new serviceThread(server_socket, dictionary);
+			thr.run();
 		}
 		
 		
