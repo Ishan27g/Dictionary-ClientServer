@@ -37,14 +37,15 @@ public class MessageStream {
 		return (new String(rspMsg));
 	}
 	
-	public void SendMsg(String xml_msg) {
+	public String SendMsg(String xml_msg) {
 		try {
 			dataOut.writeUTF(xml_msg);
+			return "Success";
 		} catch (IOException e) {
 			e.printStackTrace();
+			return e.toString();
 		}
 	}
-	
 	
 	public void closeConnection() throws IOException {
 		//Close the data streams and sockets
@@ -80,6 +81,27 @@ public class MessageStream {
 		}
 	}
 	
+	protected void set_IO_stream(Socket local_sock) throws IOException {
+
+		out = local_sock.getOutputStream();
+		dataOut = new DataOutputStream(out);
+	
+		in = local_sock.getInputStream();
+		dataIn = new DataInputStream(in);
+	}
+	
+	public void accept_connections() throws IOException {
+
+		System.out.println("waiting to accept connections");
+		try {
+			sock = ssocket.accept();
+		}
+		catch (IOException e){
+            e.printStackTrace(System.err);
+        }
+		set_IO_stream(sock);
+	}
+	
 
 	public MessageStream() throws UnknownHostException, IOException {
 		try{
@@ -90,29 +112,5 @@ public class MessageStream {
 		}		
 	}
 	
-	public void accept_connections() throws IOException {
-
-		System.out.println("waiting to accept connections");
-		try {
-			sock = ssocket.accept();
-		
-			if (ssocket != null && !ssocket.isClosed()) {
-				try {
-					ssocket.close();
-				} 
-				catch (IOException e){
-					e.printStackTrace(System.err);
-				}
-			}
-		
-			out = sock.getOutputStream();
-			dataOut = new DataOutputStream(out);
-		
-			in = sock.getInputStream();
-			dataIn = new DataInputStream(in);
-		}
-		catch (IOException e){
-            e.printStackTrace(System.err);
-        }
-	}
+	
 }

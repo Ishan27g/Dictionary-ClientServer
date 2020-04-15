@@ -10,6 +10,7 @@
 public class DictClient {
 	
     message Message;
+    MessageStream_client client_socket;
    
     public DictClient(clientAction action, String word, String content) {
     	Message = new message(action, word, content); 
