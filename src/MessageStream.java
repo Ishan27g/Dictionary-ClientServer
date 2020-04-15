@@ -27,6 +27,7 @@ public class MessageStream {
 	private void ReadMsg() {
 		try {
 			rspMsg = new String(dataIn.readUTF());
+			System.out.println(rspMsg);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
