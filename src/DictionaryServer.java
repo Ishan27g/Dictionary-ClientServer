@@ -23,7 +23,6 @@ public class DictionaryServer {
 		DictionaryData dictionary = new DictionaryData("../dictionary.csv");
 		//DictionaryData dictionary = new DictionaryData("/Users/ishan/Downloads/dictionary.csv");
 		
->>>>>>> f58b31272fc9771f99ca2d91f800f6b8652c1f98
 		dictionary.load_dictionary();
 		System.out.println(dictionary.getSize());
 		System.out.println(dictionary.searchKey("Salm"));
@@ -46,7 +45,7 @@ public class DictionaryServer {
 			if(thread_count < MAX_THREADS) {
 				thread_count++;
 				
-				Runnable thr = new serviceThread(server_socket);			
+				Runnable thr = new serviceThread(server_socket, dictionary);			
 				thr.run();
 				
 			}
