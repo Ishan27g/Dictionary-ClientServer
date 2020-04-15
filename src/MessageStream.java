@@ -77,11 +77,13 @@ public class MessageStream {
 		catch (IOException e){
 			e.printStackTrace(System.err);
 		}
-		try {
-			sock.close();
-		} 
-		catch (IOException e){
-			e.printStackTrace(System.err);
+		if (sock.isBound() == true || sock.isConnected() == true) {
+			try {
+				sock.close();
+			} 
+			catch (IOException e){
+				e.printStackTrace(System.err);
+			}
 		}
 	}
 	
@@ -97,6 +99,7 @@ public class MessageStream {
 	public void accept_connections() throws IOException {
 
 		System.out.println("waiting to accept connections");
+		sock.setReuseAddress(true);
 		try {
 			sock = ssocket.accept();
 		}

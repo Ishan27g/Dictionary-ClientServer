@@ -15,13 +15,14 @@ import javax.swing.JTextArea;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.WindowConstants;
 
 
 public class ClientGUI {
 
 	
 	static MessageStream_client client;
-	private JFrame frame;
+	JFrame frame;
 	JTextArea text1 = new JTextArea();
 	
 	//private final Action action = new SwingAction();
@@ -29,7 +30,7 @@ public class ClientGUI {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		try {
 			client = new MessageStream_client();
 		} catch (UnknownHostException e1) {
@@ -48,21 +49,27 @@ public class ClientGUI {
 			}
 		});
 	}
-
+	*/
 	/**
 	 * Create the application.
 	 */
-	public ClientGUI() {
+	public ClientGUI(MessageStream_client client) {
+		
+		this.client = client;
 		initialize();
+		//window.frame.setVisible(true);
 		
 	}
 
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 
 		frame = new JFrame();
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
 		frame.getContentPane().setBackground(new Color(102, 153, 204));
 		
 		JButton AddButton = new JButton("Add a word");
@@ -71,6 +78,20 @@ public class ClientGUI {
 		
 		text1.setLineWrap(true);
 		text1.setText("");
+		
+		JButton disconnect = new JButton("disconnect");
+		disconnect.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				try {
+					client.closeConnection();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -78,14 +99,19 @@ public class ClientGUI {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap(31, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(text1, GroupLayout.PREFERRED_SIZE, 633, GroupLayout.PREFERRED_SIZE)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(AddButton, GroupLayout.PREFERRED_SIZE, 196, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(GetButton, GroupLayout.PREFERRED_SIZE, 196, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(DelButton, GroupLayout.PREFERRED_SIZE, 196, GroupLayout.PREFERRED_SIZE)))
-					.addGap(28))
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(text1, GroupLayout.PREFERRED_SIZE, 633, GroupLayout.PREFERRED_SIZE)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(AddButton, GroupLayout.PREFERRED_SIZE, 196, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addComponent(GetButton, GroupLayout.PREFERRED_SIZE, 196, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addComponent(DelButton, GroupLayout.PREFERRED_SIZE, 196, GroupLayout.PREFERRED_SIZE)))
+							.addGap(28))
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addComponent(disconnect)
+							.addGap(20))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -101,7 +127,9 @@ public class ClientGUI {
 							.addGap(66))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(DelButton, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-							.addGap(68))))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(disconnect)
+							.addGap(27))))
 		);
 		
 		
@@ -162,10 +190,11 @@ public class ClientGUI {
 		frame.getContentPane().setLayout(groupLayout);
 		frame.setBounds(100, 100, 692, 387);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		
+
 		
 	}
+	
+	
 }
 
 
