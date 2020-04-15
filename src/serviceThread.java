@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -29,6 +30,12 @@ public class serviceThread implements Runnable{
 	public void run() {
 
 			while(true) {
+				try {
+					server_socket.accept_connections();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				response = new String(server_socket.readRsp());
 				
 				System.out.println("Thread["+Thread.currentThread().getId()+"]" + "response is : \n" + response);

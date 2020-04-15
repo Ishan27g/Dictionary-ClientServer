@@ -28,22 +28,22 @@ public class DictionaryServer {
 			
 /* 	Option 1 : 
  *  
- *  New thread per connection
+ *  New thread per Client, first MAX_CLIENTS will be serviced
  *  	- define max number of threads
  *  		Creating a thread in Java is an expensive operation. 
  *  		And if you start creating new thread instance every time to execute a task
  *  		application performance will degrade surely
  */
 
-		int MAX_THREADS = 5;
+		int MAX_CLIENTS = 5;
 		int thread_count = 0;
 		while(true) {
 			
-			server_socket.accept_connections();
 			
-			if(thread_count < MAX_THREADS) {
+			
+			if(thread_count < MAX_CLIENTS) {
 				thread_count++;
-				
+				System.out.println("Starting thread " + thread_count);
 				Runnable thr = new serviceThread(server_socket, dictionary);			
 				thr.run();
 				

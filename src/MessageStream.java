@@ -35,7 +35,10 @@ public class MessageStream {
 	
 	public String readRsp() {
 		ReadMsg();
-		return (new String(rspMsg));
+		if(rspMsg != null)
+			return (new String(rspMsg));
+		else
+			return "";
 	}
 	
 	public void SendMsg(String xml_msg) {
