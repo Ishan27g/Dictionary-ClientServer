@@ -10,6 +10,7 @@ import java.io.IOException;
  *
  */
 public class DictionaryServer {
+	static Runnable thr[] = null;
 
 	/**
 	 * @param args
@@ -37,23 +38,13 @@ public class DictionaryServer {
 
 		int MAX_CLIENTS = 5;
 		int thread_count = 0;
-		while(true) {
-			
-			
-			
-			if(thread_count < MAX_CLIENTS) {
-				thread_count++;
-				System.out.println("Starting thread " + thread_count);
-				Runnable thr = new serviceThread(server_socket, dictionary);			
-				thr.run();
-				
-			}
-			else
-			{
-				break;
-			}
-		}
 		
+		
+		for(thread_count = 0; thread_count< MAX_CLIENTS; thread_count++) {
+			System.out.println("Starting thread " + thread_count);
+			thr[thread_count] = new serviceThread(server_socket, dictionary);
+			thr[thread_count].run();
+		}
 		server_socket.closeConnection();
 		
 		

@@ -24,18 +24,18 @@ public class serviceThread implements Runnable{
 	public serviceThread(MessageStream socket, DictionaryData dictionary) {
 		this.server_socket = socket;
 		this.dictionary = dictionary;
+		try {
+			server_socket.accept_connections();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 	
 	@Override
 	public void run() {
 
 			while(true) {
-				try {
-					server_socket.accept_connections();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				
 				response = new String(server_socket.readRsp());
 				
 				System.out.println("Thread["+Thread.currentThread().getId()+"]" + "response is : \n" + response);
