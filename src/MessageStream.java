@@ -27,24 +27,24 @@ public class MessageStream {
 	private void ReadMsg() {
 		try {
 			rspMsg = new String(dataIn.readUTF());
-			System.out.println(rspMsg);
+			//System.out.println(rspMsg);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public String getMsg() {
+	public String readRsp() {
 		ReadMsg();
 		return (new String(rspMsg));
 	}
 	
-	public String SendMsg(String xml_msg) {
+	public void SendMsg(String xml_msg) {
 		try {
 			dataOut.writeUTF(xml_msg);
-			return "Success";
+			//return "Success";
 		} catch (IOException e) {
 			e.printStackTrace();
-			return e.toString();
+			return;
 		}
 	}
 	

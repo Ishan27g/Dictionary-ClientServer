@@ -121,8 +121,8 @@ public class ClientGUI {
      	        DictClient add = new DictClient(messageAction.WORD_ADD, inputWord, inputMeaning);
      	        add.build_post_msg();
      	        //add.sendMsg();
-     	        
-     	        text1.setText(client.SendMsg(add.getMsgString()));
+     	        client.SendMsg(add.getMsgString());
+     	        text1.setText(client.readRsp());
     	  
 			}
 		});
@@ -137,8 +137,9 @@ public class ClientGUI {
      	        get.build_edit_msg();
      	       // get.sendMsg();
      	       
-     	        text1.setText(client.SendMsg(get.getMsgString()));
-     	        
+     	        client.SendMsg(get.getMsgString());
+     	        text1.setText(client.readRsp());
+		
      	        
    	 
 			}
@@ -152,8 +153,11 @@ public class ClientGUI {
     	        
     	        DictClient del = new DictClient(messageAction.WORD_DELETE, inputWord, "");
     	        del.build_edit_msg();
+    	        
+    	        client.SendMsg(del.getMsgString());
+     	        text1.setText(client.readRsp());
      	       // del.sendMsg();
-    	        text1.setText(client.SendMsg(del.getMsgString()));   	 
+    	        //text1.setText(client.SendMsg(del.getMsgString()));   	 
      	    }
 		});
 		

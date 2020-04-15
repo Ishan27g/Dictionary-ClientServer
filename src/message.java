@@ -53,7 +53,7 @@ public class message {
 		builder.append("<message>");
 		builder.append("<action>" + action + "</action>");
 		builder.append("<word>" + word + "</word>");
-		if(content.length() != 0) {
+		if(content != null) {
 			builder.append("<content>" + content + "</content>");
 		}
 		builder.append("</message>");

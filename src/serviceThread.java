@@ -28,7 +28,7 @@ public class serviceThread implements Runnable{
 	@Override
 	public void run() {
 
-			response = new String(server_socket.getMsg());
+			response = new String(server_socket.readRsp());
 			
 			
 			System.out.println("Thread["+Thread.currentThread().getId()+"]" + "response is : \n" + response);
