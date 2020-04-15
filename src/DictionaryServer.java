@@ -20,7 +20,8 @@ public class DictionaryServer {
 		
 		MessageStream server_socket = new MessageStream();
 		
-		DictionaryData dictionary = new DictionaryData("/Users/ishan/Downloads/dictionary.csv");
+		DictionaryData dictionary = new DictionaryData("../dictionary.csv");
+		//DictionaryData dictionary = new DictionaryData("/Users/ishan/Downloads/dictionary.csv");
 		dictionary.load_dictionary();
 		System.out.println(dictionary.getSize());
 		System.out.println(dictionary.searchKey("Salm"));
