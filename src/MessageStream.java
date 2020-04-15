@@ -35,7 +35,7 @@ public class MessageStream {
 	
 	public String readRsp() {
 		ReadMsg();
-		if(rspMsg != null)
+		if(rspMsg != "")
 			return (new String(rspMsg));
 		else
 			return "";
