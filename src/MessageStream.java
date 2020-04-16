@@ -105,14 +105,13 @@ public class MessageStream {
 		catch (IOException e){
             e.printStackTrace(System.err);
         }
-		sock.setReuseAddress(true);
 		set_IO_stream(sock);
 	}
 	
 
 	public MessageStream() throws UnknownHostException, IOException {
 		try{
-			ssocket = new ServerSocket(1234);
+			ssocket = new ServerSocket(9999);
 		}
 		catch (IOException e) {
 			e.printStackTrace();

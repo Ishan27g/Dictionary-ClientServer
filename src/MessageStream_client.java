@@ -11,7 +11,9 @@ public class MessageStream_client extends MessageStream{
 
 	public MessageStream_client() throws UnknownHostException, IOException {
 		try {
-			sock = new Socket(InetAddress.getLocalHost(),80);
+			sock = new Socket(InetAddress.getLocalHost(),9999);
+			sock.setReuseAddress(true);
+
 		}
 		catch (IOException e){
 			e.printStackTrace(System.err);
