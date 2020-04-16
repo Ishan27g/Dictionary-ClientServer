@@ -18,4 +18,5 @@ public class MessageStream_client extends MessageStream{
 		}
 		super.set_IO_stream(sock);
 	}
+	
 }

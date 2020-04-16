@@ -21,16 +21,15 @@ import javax.swing.WindowConstants;
 public class ClientGUI {
 
 	
-	static MessageStream_client client= null;
+	MessageStream_client client;
 	JFrame frame;
 	JTextArea text1 = new JTextArea();
 	
-	public ClientGUI(MessageStream_client client) {
+	public ClientGUI(MessageStream_client cl) {
 		
-		this.client = client;
+		this.client = cl;
 		initialize();		
 	}
-
 	
 	/**
 	 * Initialize the contents of the frame.
@@ -117,24 +116,10 @@ public class ClientGUI {
       	      
      	        DictClient add = new DictClient(messageAction.WORD_ADD, inputWord, inputMeaning);
      	        add.build_post_msg();
-     	        if(client.equals(null)) {
-     	        	try {
-						client = new MessageStream_client();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} 
-     	        }
+     	       
      	        client.SendMsg(add.getMsgString());
      	        text1.setText(client.readRsp());
-     	        try {
-					client.closeConnection();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
      	       
-    	  
 			}
 		});
 		GetButton.addMouseListener(new MouseAdapter() {
@@ -146,24 +131,10 @@ public class ClientGUI {
      	        
      	        DictClient get = new DictClient(messageAction.WORD_GET, inputWord, "");
      	        get.build_edit_msg();
-
-     	        if(client.equals(null)) {
-    	        	try {
-						client = new MessageStream_client();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} 
-    	        }
+     	        
      	        client.SendMsg(get.getMsgString());
      	        text1.setText(client.readRsp());
-     	        try {
-					client.closeConnection();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-   	 
+     	     
 			}
 		});
 		DelButton.addMouseListener(new MouseAdapter() {
@@ -175,22 +146,10 @@ public class ClientGUI {
     	        
     	        DictClient del = new DictClient(messageAction.WORD_DELETE, inputWord, "");
     	        del.build_edit_msg();
-    	        if(client.equals(null)) {
-    	        	try {
-						client = new MessageStream_client();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} 
-    	        }
+    	       
     	        client.SendMsg(del.getMsgString());
      	        text1.setText(client.readRsp());
-     	        try {
-					client.closeConnection();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+     	       
      	    }
 		});
 		
