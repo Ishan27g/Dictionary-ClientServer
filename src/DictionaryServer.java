@@ -24,11 +24,13 @@ public class DictionaryServer {
 		//DictionaryData dictionary = new DictionaryData("/Users/ishan/Downloads/dictionary.csv");
 		
 		dictionary.load_dictionary();
-		
+
 			
 /* 	Option 1 : 
  *  
- *  New thread per client, infinite clients can be serviced
+ *  SERVER - New thread per CLIENT/CONNECTION, Up to MAX_CONCURRENT_THREADS clients can be concurrently handled
+ *  CLIENT - Establishes connection as soon as GUI is launched, irrespective of data exchange
+ *  
  *  	- define max number of threads
  *  	- on new connection, increase thread count
  *  	- on exit of thread, reduce thread count
@@ -40,9 +42,6 @@ public class DictionaryServer {
 		int MAX_CONCURRENT_THREADS = 3;
 		int thread_count = 0;
 		
-		
-		
-		//for(thread_count = 0; thread_count< MAX_REQUESTS; thread_count++) {
 		while(true) {
 		
 			if(Thread.activeCount() < MAX_CONCURRENT_THREADS) {
@@ -62,28 +61,19 @@ public class DictionaryServer {
 				Thread th = new Thread(thr);
 				th.start();
 				
-				/*try {
-					Thread.sleep(3000);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}*/
 			}
-			//th.
-			//thread_count--;
 		}
 		
-		//server_socket.closeConnection();
-		
-		
-		 /* 
-		 *  Option 2 :
-		 *  
-		 *  Create a fixed size thread pool, and a fixed size task queue
-		 *  	- Single pool and one time definition of task queue size.
-		 *  	- Once filled, no further requests can be processed
-		 *  
-		 * */
+
+ /* 
+ *  Option 2 :
+ *  
+ *  SERVER - New thread per CLIENT/CONNECTION, Up to MAX_CONCURRENT_THREADS clients can be concurrently handled *  
+ *  Create a fixed size thread pool, and a fixed size task queue
+ *  	- Single pool and one time definition of task queue size.
+ *  	- Once filled, no further requests can be processed
+ *  
+ * */
 		
 
 	}

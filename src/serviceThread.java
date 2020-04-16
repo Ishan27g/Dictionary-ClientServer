@@ -39,8 +39,9 @@ public class serviceThread implements Runnable{
 			e1.printStackTrace();
 		}
 
-		System.out.println("Thread["+Thread.currentThread().getId()+"] End");
-*/
+		*/
+
+		//System.out.println("Thread["+Thread.currentThread().getId()+"] ....");
 			while(true) {
 				
 				response = new String(server_socket.readRsp());

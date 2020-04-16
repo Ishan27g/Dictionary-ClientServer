@@ -21,44 +21,14 @@ import javax.swing.WindowConstants;
 public class ClientGUI {
 
 	
-	static MessageStream_client client;
+	static MessageStream_client client= null;
 	JFrame frame;
 	JTextArea text1 = new JTextArea();
 	
-	//private final Action action = new SwingAction();
-
-	/**
-	 * Launch the application.
-	 */
-	/*public static void main(String[] args) {
-		try {
-			client = new MessageStream_client();
-		} catch (UnknownHostException e1) {
-			e1.printStackTrace();
-		} catch (IOException e2) {
-			e2.printStackTrace();
-		}
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ClientGUI window = new ClientGUI();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	*/
-	/**
-	 * Create the application.
-	 */
 	public ClientGUI(MessageStream_client client) {
 		
 		this.client = client;
-		initialize();
-		//window.frame.setVisible(true);
-		
+		initialize();		
 	}
 
 	
@@ -147,9 +117,22 @@ public class ClientGUI {
       	      
      	        DictClient add = new DictClient(messageAction.WORD_ADD, inputWord, inputMeaning);
      	        add.build_post_msg();
-     	        
+     	        if(client.equals(null)) {
+     	        	try {
+						client = new MessageStream_client();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} 
+     	        }
      	        client.SendMsg(add.getMsgString());
      	        text1.setText(client.readRsp());
+     	        try {
+					client.closeConnection();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
      	       
     	  
 			}
@@ -163,11 +146,23 @@ public class ClientGUI {
      	        
      	        DictClient get = new DictClient(messageAction.WORD_GET, inputWord, "");
      	        get.build_edit_msg();
-     	       // get.sendMsg();
-     	       
+
+     	        if(client.equals(null)) {
+    	        	try {
+						client = new MessageStream_client();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} 
+    	        }
      	        client.SendMsg(get.getMsgString());
      	        text1.setText(client.readRsp());
-     	      
+     	        try {
+					client.closeConnection();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
    	 
 			}
 		});
@@ -180,10 +175,22 @@ public class ClientGUI {
     	        
     	        DictClient del = new DictClient(messageAction.WORD_DELETE, inputWord, "");
     	        del.build_edit_msg();
-    	        
+    	        if(client.equals(null)) {
+    	        	try {
+						client = new MessageStream_client();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} 
+    	        }
     	        client.SendMsg(del.getMsgString());
      	        text1.setText(client.readRsp());
-     	          	 
+     	        try {
+					client.closeConnection();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
      	    }
 		});
 		

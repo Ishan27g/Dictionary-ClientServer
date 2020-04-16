@@ -99,13 +99,13 @@ public class MessageStream {
 	public void accept_connections() throws IOException {
 
 		System.out.println("waiting to accept connections");
-		sock.setReuseAddress(true);
 		try {
 			sock = ssocket.accept();
 		}
 		catch (IOException e){
             e.printStackTrace(System.err);
         }
+		sock.setReuseAddress(true);
 		set_IO_stream(sock);
 	}
 	
