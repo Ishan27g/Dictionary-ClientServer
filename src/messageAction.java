@@ -8,5 +8,6 @@ public enum messageAction {
 	WORD_ADD,
 	WORD_GET,
 	WORD_DELETE,
-	SERV_RSP
+	SERV_RSP,
+	CLI_EXIT
 }

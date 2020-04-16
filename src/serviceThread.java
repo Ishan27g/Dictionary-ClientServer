@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -42,7 +41,7 @@ public class serviceThread implements Runnable{
 		*/
 
 		//System.out.println("Thread["+Thread.currentThread().getId()+"] ....");
-			while(server_socket.is_closed() == false) {
+			while(true) {
 				
 				response = new String(server_socket.readRsp());
 				
@@ -78,6 +77,10 @@ public class serviceThread implements Runnable{
 				     	    rsp.build_server_rspXml();
 				     	    server_socket.SendMsg(rsp.getMsgString());
 						}
+					}
+					else if (document.getElementsByTagName("action").item(0).getTextContent().contains(messageAction.CLI_EXIT.toString())){
+						
+						break;
 					}
 				} catch (Exception e) {  
 				    e.printStackTrace();  

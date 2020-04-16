@@ -28,5 +28,8 @@ public class DictClient {
     public void sendMsg() {
 		Message.send_msg();
     }
+    public void build_exit_msg() {
+    	Message.build_exit_xml();
+    }
   
 }

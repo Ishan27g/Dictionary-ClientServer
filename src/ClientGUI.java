@@ -1,15 +1,10 @@
-
-
-import java.awt.EventQueue;
-
+	
 import javax.swing.JFrame;
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.net.UnknownHostException;
-
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.GroupLayout;
@@ -52,13 +47,17 @@ public class ClientGUI {
 		disconnect.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
-				try {
-					client.closeConnection();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				DictClient exit = new DictClient(messageAction.CLI_EXIT, "", "");
+			    exit.build_exit_msg();
+			   
+			    client.SendMsg(exit.getMsgString());
+			  //  text1.setText(client.readRsp());
+			   
+			    try {
+			    	client.closeConnection();
+			    } catch (IOException e1) {
+			    	e1.printStackTrace();
+			    }
 			}
 		});
 
@@ -119,6 +118,7 @@ public class ClientGUI {
      	       
      	        client.SendMsg(add.getMsgString());
      	        text1.setText(client.readRsp());
+     	       
      	       
 			}
 		});

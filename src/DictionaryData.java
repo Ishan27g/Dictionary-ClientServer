@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -13,7 +12,8 @@ import java.util.Map;
 public class DictionaryData {
 	
 	public HashMap<String,String> ServerDictionary;
-	private FileReaderCSV file_data;
+	@SuppressWarnings("unused")
+	private FileReaderCSV file_data = null;
 	private static String file_path;
 	//=new HashMap<String,String>();   
 	

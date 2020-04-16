@@ -26,6 +26,15 @@ public class message {
 		return ;
 	}
 	
+	public void build_exit_xml() {
+
+		builder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		builder.append("<message>");
+		builder.append("<action>" + action + "</action>");
+		builder.append("</message>");
+		
+	}
+	
 	public void build_post_xml() {
 
 		builder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
