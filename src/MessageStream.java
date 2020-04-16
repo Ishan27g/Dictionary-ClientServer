@@ -33,6 +33,10 @@ public class MessageStream {
 		}
 	}
 	
+	public boolean is_closed() {
+		return ssocket.isClosed();
+	}
+	
 	public String readRsp() {
 		ReadMsg();
 		if(rspMsg != "")

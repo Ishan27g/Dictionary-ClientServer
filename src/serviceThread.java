@@ -42,7 +42,7 @@ public class serviceThread implements Runnable{
 		*/
 
 		//System.out.println("Thread["+Thread.currentThread().getId()+"] ....");
-			while(true) {
+			while(server_socket.is_closed() == false) {
 				
 				response = new String(server_socket.readRsp());
 				
