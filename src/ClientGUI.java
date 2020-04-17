@@ -5,6 +5,9 @@ import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.GroupLayout;
@@ -31,8 +34,16 @@ public class ClientGUI {
 	 */
 	private void initialize() {
 
+		
+		String client_addr = null;
+		try {
+			client_addr = InetAddress.getLocalHost().toString();
+		} catch (UnknownHostException e2) {
+			e2.printStackTrace();
+		}
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		frame.setTitle("Client ["+ client_addr +"] connected to Server ["+client.getServerIP()+"]");
 
 		frame.getContentPane().setBackground(new Color(102, 153, 204));
 		
@@ -50,6 +61,7 @@ public class ClientGUI {
 				DictClient exit = new DictClient(messageAction.CLI_EXIT, "", "");
 			    exit.build_exit_msg();
 			   
+			    
 			    client.SendMsg(exit.getMsgString());
 			  //  text1.setText(client.readRsp());
 			   
@@ -58,6 +70,7 @@ public class ClientGUI {
 			    } catch (IOException e1) {
 			    	e1.printStackTrace();
 			    }
+			    System.exit(0);
 			}
 		});
 
@@ -114,6 +127,7 @@ public class ClientGUI {
      	        JOptionPane.showMessageDialog(frame.getContentPane(), "User entered :\n" + inputMeaning);
       	      
      	        DictClient add = new DictClient(messageAction.WORD_ADD, inputWord, inputMeaning);
+     	        
      	        add.build_post_msg();
      	       
      	        client.SendMsg(add.getMsgString());
@@ -128,7 +142,7 @@ public class ClientGUI {
 				text1.setText("");
 				String inputWord = JOptionPane.showInputDialog(frame.getContentPane(), "Enter the word : ");
      	        JOptionPane.showMessageDialog(frame.getContentPane(), "You entered :\n" + inputWord);
-     	        
+     	       
      	        DictClient get = new DictClient(messageAction.WORD_GET, inputWord, "");
      	        get.build_edit_msg();
      	        
@@ -144,6 +158,7 @@ public class ClientGUI {
 				String inputWord = JOptionPane.showInputDialog(frame.getContentPane(), "Word : ");
      	        JOptionPane.showMessageDialog(frame.getContentPane(), "User entered :\n" + inputWord);
     	        
+     	       
     	        DictClient del = new DictClient(messageAction.WORD_DELETE, inputWord, "");
     	        del.build_edit_msg();
     	       

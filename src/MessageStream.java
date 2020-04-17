@@ -1,8 +1,11 @@
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -16,7 +19,6 @@ import java.net.UnknownHostException;
  *
  */
 public class MessageStream {
-	private ServerSocket ssocket;
 	private Socket sock;
 	private OutputStream out;
 	private DataOutputStream dataOut;
@@ -25,16 +27,13 @@ public class MessageStream {
 	private String rspMsg;
 	
 	private void ReadMsg() {
+		
 		try {
 			rspMsg = new String(dataIn.readUTF());
 			//System.out.println(rspMsg);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public boolean is_closed() {
-		return ssocket.isClosed();
 	}
 	
 	public String readRsp() {
@@ -48,13 +47,20 @@ public class MessageStream {
 	public void SendMsg(String xml_msg) {
 		try {
 			dataOut.writeUTF(xml_msg);
-			//return "Success";
+			//dataOut.flush();
+			System.out.println("Sent >>>> \n"+xml_msg);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;
 		}
 	}
-	
+	public void closeServer() throws IOException {
+		//try {
+			//ssocket.close();
+	//	} catch (IOException e) {
+			//e.printStackTrace();
+	//	}
+	}
 	public void closeConnection() throws IOException {
 		//Close the data streams and sockets
 		try {
@@ -93,18 +99,19 @@ public class MessageStream {
 	
 	protected void set_IO_stream(Socket local_sock) throws IOException {
 
-		out = local_sock.getOutputStream();
-		dataOut = new DataOutputStream(out);
-	
 		in = local_sock.getInputStream();
 		dataIn = new DataInputStream(in);
+		
+		out= local_sock.getOutputStream();
+		dataOut = new DataOutputStream(out);
 	}
 	
-	public void accept_connections() throws IOException {
+	public void accept_connections(ServerSocket server_socket) throws IOException {
 
+		
 		System.out.println("waiting to accept connections");
 		try {
-			sock = ssocket.accept();
+			sock = server_socket.accept();
 		}
 		catch (IOException e){
             e.printStackTrace(System.err);
@@ -113,14 +120,22 @@ public class MessageStream {
 	}
 	
 
-	public MessageStream() throws UnknownHostException, IOException {
+	public MessageStream() {
+		return;
+	}
+		/*
+		 * throws UnknownHostException, IOException {
+		 
+	}
 		try{
 			ssocket = new ServerSocket(9999);
+			//ssocket = new ServerSocket(9999,10,InetAddress.getByName("192.168.1.102")); 
+			ssocket.setReuseAddress(true);
 		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}		
 	}
 	
-	
+	*/
 }

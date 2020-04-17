@@ -1,4 +1,6 @@
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -7,10 +9,11 @@ import java.net.UnknownHostException;
 public class MessageStream_client extends MessageStream{
 	
 	Socket sock;
+	private String server_ip = new String("192.168.1.102");
 
 	public MessageStream_client() throws UnknownHostException, IOException {
 		try {
-			sock = new Socket(InetAddress.getLocalHost(),9999);
+			sock = new Socket(server_ip,9999);
 			sock.setReuseAddress(true);
 
 		}
@@ -20,4 +23,7 @@ public class MessageStream_client extends MessageStream{
 		super.set_IO_stream(sock);
 	}
 	
+	public String getServerIP() {
+		return new String(server_ip);
+	}
 }
