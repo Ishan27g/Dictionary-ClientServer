@@ -29,9 +29,17 @@ public class ClientGUI {
 		initialize();		
 	}
 	
-	/**
-	 * Initialize the contents of the frame.
-	 */
+	private void handle_req(messageAction action, String word, String content) {
+		message rsp = new message(action, word, content);
+		if(action == messageAction.WORD_ADD)
+			rsp.build_post_xml();
+		else
+			rsp.build_edit_xml();
+ 	    
+		client.SendMsg(rsp.getMsgString());
+		return;
+	}
+	
 	private void initialize() {
 
 		
@@ -60,11 +68,7 @@ public class ClientGUI {
 			public void mouseClicked(MouseEvent e) {
 				DictClient exit = new DictClient(messageAction.CLI_EXIT, "", "");
 			    exit.build_exit_msg();
-			   
-			    
-			    client.SendMsg(exit.getMsgString());
-			  //  text1.setText(client.readRsp());
-			   
+			    client.SendMsg(exit.getMsgString());			   
 			    try {
 			    	client.closeConnection();
 			    } catch (IOException e1) {
@@ -126,12 +130,10 @@ public class ClientGUI {
      		   	String inputMeaning = JOptionPane.showInputDialog(frame.getContentPane(), "Definition : ");
      	        JOptionPane.showMessageDialog(frame.getContentPane(), "User entered :\n" + inputMeaning);
       	      
-     	        DictClient add = new DictClient(messageAction.WORD_ADD, inputWord, inputMeaning);
      	        
-     	        add.build_post_msg();
-     	       
-     	        client.SendMsg(add.getMsgString());
-     	        text1.setText(client.readRsp());
+     	        handle_req(messageAction.WORD_ADD, inputWord, inputMeaning);
+     	        xml_parser xml = new xml_parser(client.readRsp());
+     	        text1.setText(xml.get_element("word"));
      	       
      	       
 			}
@@ -143,12 +145,12 @@ public class ClientGUI {
 				String inputWord = JOptionPane.showInputDialog(frame.getContentPane(), "Enter the word : ");
      	        JOptionPane.showMessageDialog(frame.getContentPane(), "You entered :\n" + inputWord);
      	       
-     	        DictClient get = new DictClient(messageAction.WORD_GET, inputWord, "");
-     	        get.build_edit_msg();
      	        
-     	        client.SendMsg(get.getMsgString());
-     	        text1.setText(client.readRsp());
-     	     
+      	       handle_req(messageAction.WORD_GET, inputWord, "");
+
+     	        xml_parser xml = new xml_parser(client.readRsp());
+    	        text1.setText(xml.get_element("content"));
+    	     
 			}
 		});
 		DelButton.addMouseListener(new MouseAdapter() {
@@ -158,12 +160,10 @@ public class ClientGUI {
 				String inputWord = JOptionPane.showInputDialog(frame.getContentPane(), "Word : ");
      	        JOptionPane.showMessageDialog(frame.getContentPane(), "User entered :\n" + inputWord);
     	        
-     	       
-    	        DictClient del = new DictClient(messageAction.WORD_DELETE, inputWord, "");
-    	        del.build_edit_msg();
-    	       
-    	        client.SendMsg(del.getMsgString());
-     	        text1.setText(client.readRsp());
+       	        handle_req(messageAction.WORD_DELETE, inputWord, "");
+
+    	        xml_parser xml = new xml_parser(client.readRsp());
+     	        text1.setText(xml.get_element("word"));
      	       
      	    }
 		});

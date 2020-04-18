@@ -26,6 +26,10 @@ public class MessageStream {
 	private DataInputStream dataIn;
 	private String rspMsg;
 	
+	public String get_client_id() {
+		return sock.getInetAddress().toString();
+	}
+	
 	private void ReadMsg() {
 		
 		try {
@@ -47,19 +51,11 @@ public class MessageStream {
 	public void SendMsg(String xml_msg) {
 		try {
 			dataOut.writeUTF(xml_msg);
-			//dataOut.flush();
-			System.out.println("Sent >>>> \n"+xml_msg);
+			System.out.println("send>>" + xml_msg);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;
 		}
-	}
-	public void closeServer() throws IOException {
-		//try {
-			//ssocket.close();
-	//	} catch (IOException e) {
-			//e.printStackTrace();
-	//	}
 	}
 	public void closeConnection() throws IOException {
 		//Close the data streams and sockets
@@ -107,9 +103,6 @@ public class MessageStream {
 	}
 	
 	public void accept_connections(ServerSocket server_socket) throws IOException {
-
-		
-		//System.out.println("waiting to accept connections...");
 		try {
 			sock = server_socket.accept();
 		}
@@ -123,19 +116,5 @@ public class MessageStream {
 	public MessageStream() {
 		return;
 	}
-		/*
-		 * throws UnknownHostException, IOException {
-		 
-	}
-		try{
-			ssocket = new ServerSocket(9999);
-			//ssocket = new ServerSocket(9999,10,InetAddress.getByName("192.168.1.102")); 
-			ssocket.setReuseAddress(true);
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}		
-	}
-	
-	*/
+		
 }

@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -5,6 +6,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 /**
  * 
@@ -18,72 +20,79 @@ public class serviceThread implements Runnable{
 	
 	private MessageStream server_socket;
 	DictionaryData dictionary;
-	private String response;
+	static String client_id;
    
 	public serviceThread(MessageStream socket, DictionaryData dictionary) {
 		this.server_socket = socket;
 		this.dictionary = dictionary;
 	}
 	
+	private void handle_req(messageAction action, String word, String content) {
+		message rsp = new message(action, word, content);
+		
+		rsp.build_server_rspXml();
+ 	    
+		server_socket.SendMsg(rsp.getMsgString());
+ 	 
+	}
+	final String word = "word";
+	final String content = "content";
 	@Override
 	public void run() {
+
+		client_id = server_socket.get_client_id();
 		
-		
-		System.out.println("Thread[ "+Thread.currentThread().getId()+" ] Started...");
+		System.out.println("Thread[ "+Thread.currentThread().getId()+" ]..connected to : "+ client_id + " ");
 	
 		while(true) {
 			
-			response = new String(server_socket.readRsp());
-			
-			System.out.println("Thread["+Thread.currentThread().getId()+"]" + "response is : \n" + response);
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
-			DocumentBuilder builder;  
+			xml_parser xml = new xml_parser(server_socket.readRsp());
+	        
+			if(xml.lookup_action(messageAction.WORD_ADD.toString()) ==  true) {
+				System.out.println("["+client_id + "] - Add a word ");
 				
-			try {  
-			    builder = factory.newDocumentBuilder();  
-			    Document document = builder.parse(new InputSource(new StringReader(response)));
-				//System.out.println(document.getElementsByTagName("action").item(0).getTextContent());
-				if (document.getElementsByTagName("action").item(0).getTextContent().contains(messageAction.WORD_ADD.toString())){
+				if(dictionary.addKey(xml.get_element(word), xml.get_element(content)) == true) {
 					
-					if(dictionary.addKey(document.getElementsByTagName("word").item(0).getTextContent(),
-							document.getElementsByTagName("content").item(0).getTextContent()) == true) {
-													
-							message rsp = new message(messageAction.SERV_RSP, "Success", "");
-				     	    rsp.build_server_rspXml();
-				     	    server_socket.SendMsg(rsp.getMsgString());
-				     	    
-					}
-				}
-				else if (document.getElementsByTagName("action").item(0).getTextContent().contains(messageAction.WORD_GET.toString())){
-					
-					message rsp = new message(messageAction.SERV_RSP, document.getElementsByTagName("word").item(0).getTextContent()
-							, dictionary.searchKey(document.getElementsByTagName("word").item(0).getTextContent()));
-					rsp.build_server_rspXml();
-		     	    server_socket.SendMsg(rsp.getMsgString());
-				}
-				else if (document.getElementsByTagName("action").item(0).getTextContent().contains(messageAction.WORD_DELETE.toString())){
-					
-					if(dictionary.deleteKey(document.getElementsByTagName("word").item(0).getTextContent()) == true) {
-						message rsp = new message(messageAction.SERV_RSP, "Success", "");
-			     	    rsp.build_server_rspXml();
-			     	    server_socket.SendMsg(rsp.getMsgString());
-					}
-				}
-				else if (document.getElementsByTagName("action").item(0).getTextContent().contains(messageAction.CLI_EXIT.toString())){
-					
-					break;
+					handle_req(messageAction.SERV_RSP, "Success", ""); 
 				}
 				else {
-					message rsp = new message(messageAction.SERV_RSP, "Success", "");
-		     	    rsp.build_server_rspXml();
-		     	    server_socket.SendMsg(rsp.getMsgString());
+					handle_req(messageAction.SERV_RSP, "Error", "Could not add the word and its meaning");
 				}
-			} catch (Exception e) {  
-			    e.printStackTrace();  
-			} 
+				System.out.println("["+client_id + "] - response sent");
+
+			}
+			
+			else if(xml.lookup_action(messageAction.WORD_GET.toString()) ==  true) {
+				System.out.println("["+client_id + "] - Get a meaning ");
+				
+				handle_req(messageAction.SERV_RSP, xml.get_element(word), 
+						dictionary.searchKey(xml.get_element(word)));
+				
+				System.out.println("["+client_id + "] - response sent");
+			}
+			
+			else if(xml.lookup_action(messageAction.WORD_DELETE.toString()) ==  true) {
+				System.out.println("["+client_id + "] - Delete a word ");
+				
+				if(dictionary.deleteKey(xml.get_element(word)) == true) {
+					
+					handle_req(messageAction.SERV_RSP, "Success", "");
+				}
+				else{
+					handle_req(messageAction.SERV_RSP, "Error", "Could not delete key");
+				}
+				System.out.println("["+client_id + "] - response sent");
+			}
+			
+			else if(xml.lookup_action(messageAction.CLI_EXIT.toString()) ==  true) {
+				System.out.println("["+client_id + "] - ended connection ");
+				break;
+			}
+		    else {
+		    	handle_req(messageAction.SERV_RSP, "Error", "invalid action");
+				System.out.println("["+client_id + "] - response sent");
+		    }
 		}
 		System.out.println("Thread[ "+Thread.currentThread().getId()+" ] End");
-		
 	}
-
 }
