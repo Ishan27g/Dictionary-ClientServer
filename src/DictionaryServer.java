@@ -4,6 +4,8 @@
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 /**
@@ -12,23 +14,36 @@ import java.net.ServerSocket;
  */
 public class DictionaryServer {
 	
-	/**
-	 * @param args
-	 */
 	
-	
+	private static final boolean Enable_Th_pool = false;
+	static final int MAX_CONCURRENT_THREADS = 5;
+    static ExecutorService pool;
 	static ServerSocket server_socket ;
+	
 	public static void main(String[] args) throws IOException{
+
 		
 		//Create a socket for clients to connect, then read dictionary data
 		server_socket = new ServerSocket(9999);
 
-		
 		DictionaryData dictionary = new DictionaryData("../dictionary.csv");
-		//DictionaryData dictionary = new DictionaryData("/Users/ishan/Downloads/dictionary.csv");
-		
 		dictionary.load_dictionary();
-
+		
+		Runtime.getRuntime().addShutdownHook(new Thread()
+        {
+            @Override
+            public void run()
+            {
+                System.out.println("Shutdown hook ran!");
+                try {
+					server_socket.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+				}
+                pool.shutdown();
+            };
+        });
 			
 		
 /* 	Option 1 : 
@@ -43,51 +58,26 @@ public class DictionaryServer {
  *  		And if you start creating new thread instance every time to execute a task
  *  		application performance will degrade surely
  */
-
-		int MAX_CONCURRENT_THREADS = 3;
-		int thread_count = 0;
+		 if(!Enable_Th_pool) {
+	    		System.out.println("Creating new thread per connection, max concurrent connections = " + MAX_CONCURRENT_THREADS);
+				while(true) {
+					if(Thread.activeCount() < MAX_CONCURRENT_THREADS) {
+						System.out.println("Current active threads: " + Thread.activeCount());
+						
+						MessageStream server = new MessageStream();
+						Runnable thr = new serviceThread(server, dictionary);
 		
-		Runtime.getRuntime().addShutdownHook(new Thread()
-        {
-            @Override
-            public void run()
-            {
-                System.out.println("Shutdown hook ran!");
-                try {
-					server_socket.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					//e.printStackTrace();
+						try {
+							server.accept_connections(server_socket);
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+						Thread th = new Thread(thr);
+						th.start();
+						
+					}
 				}
-               
-            };
-        });
-		
-		while(true) {
-		
-			if(Thread.activeCount() < MAX_CONCURRENT_THREADS) {
-				
-				System.out.println("Active threads: " + Thread.activeCount());
-				
-
-				MessageStream server = new MessageStream();
-				Runnable thr = new serviceThread(server, dictionary);
-				Thread th = new Thread(thr);
-
-				try {
-					server.accept_connections(server_socket);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				thread_count++;
-				
-				System.out.println("Starting thread " + th.getId());
-				th.start();
-				
-			}
-		}
-		
-
+	        }
  /* 
  *  Option 2 :
  *  
@@ -98,8 +88,19 @@ public class DictionaryServer {
  *  	- Once filled, no further requests can be processed
  *  
  * */
-		
-
+        else {
+        	pool = Executors.newFixedThreadPool(MAX_CONCURRENT_THREADS);   
+        	while(true) {
+    				
+    			MessageStream server = new MessageStream();
+    			try {
+    				server.accept_connections(server_socket);
+    			} catch (IOException e1) {
+    				e1.printStackTrace();
+    			}
+    			Runnable server_instance = new serviceThread(server, dictionary);
+    			pool.execute(server_instance);
+    		}
+        }
 	}
-
 }

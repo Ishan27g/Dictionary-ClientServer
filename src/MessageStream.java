@@ -109,7 +109,7 @@ public class MessageStream {
 	public void accept_connections(ServerSocket server_socket) throws IOException {
 
 		
-		System.out.println("waiting to accept connections");
+		//System.out.println("waiting to accept connections...");
 		try {
 			sock = server_socket.accept();
 		}

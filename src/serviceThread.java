@@ -29,7 +29,7 @@ public class serviceThread implements Runnable{
 	public void run() {
 		
 		
-		System.out.println("Thread["+Thread.currentThread().getId()+"] Start...");
+		System.out.println("Thread[ "+Thread.currentThread().getId()+" ] Started...");
 	
 		while(true) {
 			
@@ -82,7 +82,7 @@ public class serviceThread implements Runnable{
 			    e.printStackTrace();  
 			} 
 		}
-		System.out.println("Thread["+Thread.currentThread().getId()+"] End");
+		System.out.println("Thread[ "+Thread.currentThread().getId()+" ] End");
 		
 	}
 
