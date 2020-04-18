@@ -89,7 +89,8 @@ public class DictionaryServer {
  *  
  * */
         else {
-        	pool = Executors.newFixedThreadPool(MAX_CONCURRENT_THREADS);   
+        	pool = Executors.newCachedThreadPool();
+        	
         	while(true) {
     				
     			MessageStream server = new MessageStream();
