@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
 public class DictionaryServer {
 	
 	
-	private static final boolean Enable_Th_pool = false;
+	private static final boolean Enable_Th_pool = true;
 	static final int MAX_CONCURRENT_THREADS = 5;
     static ExecutorService pool;
 	static ServerSocket server_socket ;
