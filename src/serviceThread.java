@@ -1,12 +1,4 @@
-import java.io.IOException;
-import java.io.StringReader;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+import java.sql.Timestamp;
 
 /**
  * 
@@ -21,6 +13,9 @@ public class serviceThread implements Runnable{
 	private MessageStream server_socket;
 	DictionaryData dictionary;
 	static String client_id;
+	final String word = "word";
+	final String content = "content";
+	
    
 	public serviceThread(MessageStream socket, DictionaryData dictionary) {
 		this.server_socket = socket;
@@ -28,54 +23,51 @@ public class serviceThread implements Runnable{
 	}
 	
 	private void handle_req(messageAction action, String word, String content) {
-		message rsp = new message(action, word, content);
 		
+		message rsp = new message(action, word, content);
 		rsp.build_server_rspXml();
- 	    
-		server_socket.SendMsg(rsp.getMsgString());
- 	 
+ 	    server_socket.SendMsg(rsp.getMsgString()); 
 	}
-	final String word = "word";
-	final String content = "content";
+	int msg_num = 0;
+	
 	@Override
 	public void run() {
 
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        System.out.println(Thread.currentThread().getName() + " lifecycle started at " + timestamp);
 		client_id = server_socket.get_client_id();
-		
-		System.out.println("Thread[ "+Thread.currentThread().getId()+" ]..connected to : "+ client_id + " ");
 	
 		while(true) {
 			
 			xml_parser xml = new xml_parser(server_socket.readRsp());
+			msg_num++;
+			if(msg_num == 1) {
+				
+			    timestamp = new Timestamp(System.currentTimeMillis());
+			    System.out.println(Thread.currentThread().getName() + " Message wait ends at " + timestamp);
+			}
 	        
 			if(xml.lookup_action(messageAction.WORD_ADD.toString()) ==  true) {
 				System.out.println("["+client_id + "] - Add a word ");
-				
 				if(dictionary.addKey(xml.get_element(word), xml.get_element(content)) == true) {
-					
 					handle_req(messageAction.SERV_RSP, "Success", ""); 
 				}
 				else {
 					handle_req(messageAction.SERV_RSP, "Error", "Could not add the word and its meaning");
 				}
 				System.out.println("["+client_id + "] - response sent");
-
 			}
 			
 			else if(xml.lookup_action(messageAction.WORD_GET.toString()) ==  true) {
 				System.out.println("["+client_id + "] - Get a meaning ");
-				
 				handle_req(messageAction.SERV_RSP, xml.get_element(word), 
 						dictionary.searchKey(xml.get_element(word)));
-				
 				System.out.println("["+client_id + "] - response sent");
 			}
 			
 			else if(xml.lookup_action(messageAction.WORD_DELETE.toString()) ==  true) {
 				System.out.println("["+client_id + "] - Delete a word ");
-				
 				if(dictionary.deleteKey(xml.get_element(word)) == true) {
-					
 					handle_req(messageAction.SERV_RSP, "Success", "");
 				}
 				else{
@@ -93,6 +85,9 @@ public class serviceThread implements Runnable{
 				System.out.println("["+client_id + "] - response sent");
 		    }
 		}
-		System.out.println("Thread[ "+Thread.currentThread().getId()+" ] End");
+		
+	    timestamp = new Timestamp(System.currentTimeMillis());
+	    System.out.println(Thread.currentThread().getName() + " lifecycle ends at " + timestamp);
+	 
 	}
 }

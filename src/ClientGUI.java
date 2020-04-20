@@ -29,7 +29,7 @@ public class ClientGUI {
 		initialize();		
 	}
 	
-	private void handle_req(messageAction action, String word, String content) {
+	private void handle_rsp(messageAction action, String word, String content) {
 		message rsp = new message(action, word, content);
 		if(action == messageAction.WORD_ADD)
 			rsp.build_post_xml();
@@ -66,9 +66,10 @@ public class ClientGUI {
 		disconnect.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				DictClient exit = new DictClient(messageAction.CLI_EXIT, "", "");
-			    exit.build_exit_msg();
-			    client.SendMsg(exit.getMsgString());			   
+				
+				message rsp = new message(messageAction.CLI_EXIT, "", "");
+   			    rsp.build_edit_xml();
+			    client.SendMsg(rsp.getMsgString());			   
 			    try {
 			    	client.closeConnection();
 			    } catch (IOException e1) {
@@ -131,7 +132,7 @@ public class ClientGUI {
      	        JOptionPane.showMessageDialog(frame.getContentPane(), "User entered :\n" + inputMeaning);
       	      
      	        
-     	        handle_req(messageAction.WORD_ADD, inputWord, inputMeaning);
+     	        handle_rsp(messageAction.WORD_ADD, inputWord, inputMeaning);
      	        xml_parser xml = new xml_parser(client.readRsp());
      	        text1.setText(xml.get_element("word"));
      	       
@@ -146,7 +147,7 @@ public class ClientGUI {
      	        JOptionPane.showMessageDialog(frame.getContentPane(), "You entered :\n" + inputWord);
      	       
      	        
-      	       handle_req(messageAction.WORD_GET, inputWord, "");
+      	       handle_rsp(messageAction.WORD_GET, inputWord, "");
 
      	        xml_parser xml = new xml_parser(client.readRsp());
     	        text1.setText(xml.get_element("content"));
@@ -160,7 +161,7 @@ public class ClientGUI {
 				String inputWord = JOptionPane.showInputDialog(frame.getContentPane(), "Word : ");
      	        JOptionPane.showMessageDialog(frame.getContentPane(), "User entered :\n" + inputWord);
     	        
-       	        handle_req(messageAction.WORD_DELETE, inputWord, "");
+       	        handle_rsp(messageAction.WORD_DELETE, inputWord, "");
 
     	        xml_parser xml = new xml_parser(client.readRsp());
      	        text1.setText(xml.get_element("word"));

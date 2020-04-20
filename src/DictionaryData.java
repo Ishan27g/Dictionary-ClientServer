@@ -15,7 +15,6 @@ public class DictionaryData {
 	@SuppressWarnings("unused")
 	private FileReaderCSV file_data = null;
 	private static String file_path;
-	//=new HashMap<String,String>();   
 	
 	public void load_dictionary() {
 		file_data = new FileReaderCSV(file_path, ServerDictionary);

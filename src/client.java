@@ -16,6 +16,9 @@ public class client {
 */
 
 		final MessageStream_client c = new MessageStream_client();
+		
+		//take ip input and pass to gui instead of c.
+		//create c in gui
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -32,3 +35,10 @@ public class client {
 		
 		
 }
+
+
+/*
+ * Dependency - A - - - > B : A depends on B, or A uses B 
+ * Association - A -------> B : to represent something like a field in a class
+ *  
+ */
