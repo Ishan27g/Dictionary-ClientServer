@@ -2,13 +2,11 @@ import java.util.HashMap;
 
 
 /**
- * 
+ * @author Ishan Goyal - 1056051 
+ * This class defines the Local instance of the dictionary data that is kept in memory while
+ * the server is up
  */
 
-/**
- * @author ishan
- *
- */
 public class DictionaryData {
 	
 	public HashMap<String,String> ServerDictionary;

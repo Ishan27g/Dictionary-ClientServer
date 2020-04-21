@@ -1,12 +1,9 @@
 import java.sql.Timestamp;
 
 /**
- * 
- */
-
-/**
- * @author ishan
- *
+ * @author Ishan Goyal : 1056051
+ *	This class defines the Server worker thread
+ *  Each instance of this class runs to service an individual client.
  */
 public class serviceThread implements Runnable{
 	

@@ -1,4 +1,9 @@
 
+/**
+ * @author Ishan Goyal : 1056051
+ *	This class is used to define the client Message stream
+ */
+
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;

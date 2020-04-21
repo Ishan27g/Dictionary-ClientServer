@@ -1,3 +1,8 @@
+/**
+ * @author Ishan Goyal : 1056051
+ *	This factory is used to give similar properties to all threads created by the master thread
+ */
+
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 

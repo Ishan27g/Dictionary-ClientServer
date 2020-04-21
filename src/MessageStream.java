@@ -1,3 +1,8 @@
+/**
+ * @author Ishan Goyal : 1056051
+ *	This class is used to define the Server Message stream, and subsequent streams with each client on a thread
+ */
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -6,14 +11,7 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-/**
- * 
- */
 
-/**
- * @author ishan
- *
- */
 public class MessageStream {
 	
 	private ServerSocket server_socket;

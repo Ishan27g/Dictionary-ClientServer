@@ -1,17 +1,14 @@
 /**
+ * @author Ishan Goyal - 1056051 
+ * This class defines the Server for the dictionary
+ * It invokes various worker threads to deal with concurrent clients
  * 
  */
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
-/**
- * @author ishan
- *
- */
 public class DictionaryServer {
 	
 	

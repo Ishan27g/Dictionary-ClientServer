@@ -1,4 +1,12 @@
 	
+/**
+ * @author Ishan Goyal - 1056051 
+ * This class defines the GUI for the client
+ * this class also acts as controller for the user input and output use cases
+ * 
+ */
+
+
 import javax.swing.JFrame;
 import java.awt.Color;
 import javax.swing.JButton;
@@ -16,9 +24,9 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.WindowConstants;
 
 
+
 public class ClientGUI {
 
-	
 	MessageStream_client client;
 	JFrame frame;
 	JTextArea text1 = new JTextArea();
@@ -42,7 +50,6 @@ public class ClientGUI {
 	
 	private void initialize() {
 
-		
 		String client_addr = null;
 		try {
 			client_addr = InetAddress.getLocalHost().toString();

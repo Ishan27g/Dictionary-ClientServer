@@ -1,4 +1,7 @@
-
+/**
+ * @author Ishan Goyal - 1056051 
+ * This class defines the message exchange format between the client and server
+ */
 
 public class message {
 	

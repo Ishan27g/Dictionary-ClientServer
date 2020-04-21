@@ -1,4 +1,8 @@
-
+/**
+ * @author Ishan Goyal - 1056051 
+ * This class defines the file operations for the dictionary data
+ * 
+ */
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

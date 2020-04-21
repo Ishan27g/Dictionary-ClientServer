@@ -1,3 +1,10 @@
+/**
+ * @author Ishan Goyal : 1056051
+ *	This class is used to define the xml parsing and formatting operations.
+ *
+ */
+
+
 import java.io.IOException;
 import java.io.StringReader;
 
