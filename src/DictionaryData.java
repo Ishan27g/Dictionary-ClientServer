@@ -61,5 +61,12 @@ public class DictionaryData {
 	public int getSize() {
 		return ServerDictionary.size();
 	}
+
+	public int save_file(String fileName ){
+		System.out.println("saving file");
+		FileWriterCSV save_file = new FileWriterCSV(fileName, ServerDictionary);
+		return save_file.close();
+		//ServerDictionary.sav
+	}
 	
 }

@@ -34,6 +34,7 @@ public class DictionaryServer {
 
 		DictionaryData dictionary = new DictionaryData("../dictionary.csv");
 		//dictionary.load_dictionary();
+		System.out.println("Loaded dictionary with entries : " + dictionary.getSize());
 		
 		Runtime.getRuntime().addShutdownHook(new Thread()
         {
@@ -52,6 +53,9 @@ public class DictionaryServer {
 				if(pool.isShutdown() == false){
 					pool.shutdown();
 				}
+
+		 	int entries_saved = dictionary.save_file("../dictionary1.csv");
+		 	System.out.println("saved dictionary with entries : " + entries_saved);
             };
         });
 			
@@ -138,10 +142,8 @@ public class DictionaryServer {
 			}
 		}
 
-		/**
-		 * write final dictionary data to csv file
-		 * 
-		 */
+		 // write final dictionary data to csv file
+
 	}
 }
 
