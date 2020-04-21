@@ -16,6 +16,7 @@ import java.net.Socket;
  */
 public class MessageStream {
 	
+	private ServerSocket server_socket;
 	private Socket sock;
 	private OutputStream out;
 	private DataOutputStream dataOut;
@@ -79,35 +80,50 @@ public class MessageStream {
 		catch (IOException e){
 			e.printStackTrace(System.err);
 		}
-		if (sock.isBound() == true || sock.isConnected() == true) {
-			try {
-				sock.close();
-			} 
-			catch (IOException e){
-				e.printStackTrace(System.err);
+		if(sock != null){
+			if (sock.isBound() == true || sock.isConnected() == true) {
+				try {
+					sock.close();
+				} 
+				catch (IOException e){
+					e.printStackTrace(System.err);
+				}
 			}
+				
 		}
 	}
-	
-	protected void set_IO_stream(Socket local_sock) throws IOException {
 
-		in = local_sock.getInputStream();
+	protected void set_IO_stream(Socket sock){
+		try {
+			in = sock.getInputStream();
+		} catch (IOException e) {
+			System.out.println("unable to get inputStream");
+		}
 		dataIn = new DataInputStream(in);
 		
-		out= local_sock.getOutputStream();
+		try {
+			out = sock.getOutputStream();
+		} catch (IOException e) {
+			System.out.println("unable to get outputstream");
+		}
 		dataOut = new DataOutputStream(out);
+
 	}
 	
-	public void accept_connections(ServerSocket server_socket) throws IOException {
+	public void accept_connections()  {
 		try {
 			sock = server_socket.accept();
 		}
 		catch (IOException e){
             e.printStackTrace(System.err);
-        }
+		}
 		set_IO_stream(sock);
 	}
 	
+	public void setServerSocket(ServerSocket server_socket){
+		this.server_socket = server_socket;
+	}
+
 
 	public MessageStream() {
 		return;

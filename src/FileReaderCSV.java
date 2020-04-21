@@ -10,7 +10,6 @@ public class FileReaderCSV {
 
     public FileReaderCSV(String csvFile, HashMap<String,String> ServerDictionary) {
 
-       // String csvFile = "/Users/ishan/Downloads/dictionary.csv";
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
@@ -30,20 +29,18 @@ public class FileReaderCSV {
             }
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("File not found : " + csvFile);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error reading file : " + csvFile);
         } finally {
             if (br != null) {
                 try {
                     br.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("Error closing file : " + csvFile);
                 }
             }
         }
-
     }
-
 }
 

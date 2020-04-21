@@ -4,9 +4,26 @@ import java.net.UnknownHostException;
 
 public class client {
 
+	static private String ip = null;
+	static private int port;
 	
 	public static void main(String[] args) throws UnknownHostException, IOException {
 	
+		
+		if (args.length == 2) {
+			try {
+				ip = new String(args[0]);
+				port = Integer.parseInt(args[1]);
+			} catch (NumberFormatException e) {
+				System.err.println("Argument" + args[0] + " must be an integer.");
+				System.exit(1);
+			}
+		}
+		else
+		{
+        	System.out.println("Proper Usage is: java client.java ip port");
+        	System.exit(0);
+    	}
 		
 /*
  * SERVER - New thread per CLIENT/CONNECTION, Up to MAX_CONCURRENT_THREADS clients can be concurrently handled
@@ -15,7 +32,8 @@ public class client {
  * CLIENT - Establishes connection as soon as GUI is launched, irrespective of data exchange
 */
 
-		final MessageStream_client c = new MessageStream_client();
+		System.out.println("Client connecting to " + ip + ":" + port);
+		final MessageStream_client c = new MessageStream_client(ip, port);
 		
 		//take ip input and pass to gui instead of c.
 		//create c in gui

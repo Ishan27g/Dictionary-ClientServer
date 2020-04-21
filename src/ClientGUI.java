@@ -51,7 +51,7 @@ public class ClientGUI {
 		}
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		frame.setTitle("Client ["+ client_addr +"] connected to Server ["+client.getServerIP()+"]");
+		frame.setTitle("Client ["+ client_addr +"] connected to Server ["+client.getServerIP()+":"+client.getServerPort()+"]");
 
 		frame.getContentPane().setBackground(new Color(102, 153, 204));
 		
