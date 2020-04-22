@@ -26,12 +26,12 @@ public class xml_parser {
 		    try {
 				builder = factory.newDocumentBuilder();
 			} catch (ParserConfigurationException e) {
-				e.printStackTrace();
+				System.out.println("unable to parse xml string");
 			}  
 		    try {
 				doc = builder.parse(new InputSource(new StringReader(xml_string)));
 			} catch (SAXException | IOException e) {
-				e.printStackTrace();
+				System.out.println("xml string is invalid");
 			}
 		}
 		public boolean lookup_action(String action) {

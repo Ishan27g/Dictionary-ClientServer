@@ -1,6 +1,7 @@
 /**
  * @author Ishan Goyal : 1056051
  *	This class is used to define the Server Message stream, and subsequent streams with each client on a thread
+ *
  */
 
 import java.io.DataInputStream;
@@ -31,7 +32,7 @@ public class MessageStream {
 		try {
 			rspMsg = new String(dataIn.readUTF());
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("unable to read Msg from inputstream");
 		}
 	}
 	
@@ -48,7 +49,7 @@ public class MessageStream {
 			dataOut.writeUTF(xml_msg);
 			System.out.println("send>>" + xml_msg);
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("unable to send Msg over outputstream");
 			return;
 		}
 	}
@@ -58,25 +59,25 @@ public class MessageStream {
 			dataIn.close();
 		} 
 		catch (IOException e){
-			e.printStackTrace(System.err);
+			System.out.println("Error closing DataInputStreams");
 		}
 		try {
 			in.close();
 		} 
 		catch (IOException e){
-			e.printStackTrace(System.err);
+			System.out.println("Error closing inputStreams");
 		}
 		try {
 			dataOut.close();
 		} 
 		catch (IOException e){
-			e.printStackTrace(System.err);
+			System.out.println("Error closing dataOutputStreams");
 		}
 		try {
 			out.close();
 		} 
 		catch (IOException e){
-			e.printStackTrace(System.err);
+			System.out.println("Error closing outputStreams");
 		}
 		if(sock != null){
 			if (sock.isBound() == true || sock.isConnected() == true) {
@@ -84,10 +85,9 @@ public class MessageStream {
 					sock.close();
 				} 
 				catch (IOException e){
-					e.printStackTrace(System.err);
+					System.out.println("Error closing socket");
 				}
 			}
-				
 		}
 	}
 
@@ -105,7 +105,6 @@ public class MessageStream {
 			System.out.println("unable to get outputstream");
 		}
 		dataOut = new DataOutputStream(out);
-
 	}
 	
 	public void accept_connections()  {
@@ -113,7 +112,8 @@ public class MessageStream {
 			sock = server_socket.accept();
 		}
 		catch (IOException e){
-            e.printStackTrace(System.err);
+			System.out.println("unable to accept connection");
+			return;
 		}
 		set_IO_stream(sock);
 	}

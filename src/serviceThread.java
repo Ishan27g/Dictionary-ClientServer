@@ -12,7 +12,9 @@ public class serviceThread implements Runnable{
 	static String client_id;
 	final String word = "word";
 	final String content = "content";
-	
+	public static final String ANSI_YELLOW = "\u001B[33m";
+	public static final String ANSI_RESET = "\u001B[0m";
+
    
 	public serviceThread(MessageStream socket, DictionaryData dictionary) {
 		this.server_socket = socket;
@@ -31,7 +33,8 @@ public class serviceThread implements Runnable{
 	public void run() {
 
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        System.out.println(Thread.currentThread().getName() + " lifecycle started at " + timestamp);
+		System.out.println(ANSI_YELLOW + Thread.currentThread().getName() + ANSI_RESET +
+		 ": Created, in a 'waiting' state at : " + timestamp);
 		client_id = server_socket.get_client_id();
 	
 		while(true) {
@@ -41,7 +44,8 @@ public class serviceThread implements Runnable{
 			if(msg_num == 1) {
 				
 			    timestamp = new Timestamp(System.currentTimeMillis());
-			    System.out.println(Thread.currentThread().getName() + " Message wait ends at " + timestamp);
+				System.out.println(ANSI_YELLOW + Thread.currentThread().getName() + ANSI_RESET +
+				 " : Received message, from 'waiting' to 'executing' state at : " + timestamp);
 			}
 	        
 			if(xml.lookup_action(messageAction.WORD_ADD.toString()) ==  true) {
@@ -84,7 +88,8 @@ public class serviceThread implements Runnable{
 		}
 		
 	    timestamp = new Timestamp(System.currentTimeMillis());
-	    System.out.println(Thread.currentThread().getName() + " lifecycle ends at " + timestamp);
+		System.out.println(ANSI_YELLOW + Thread.currentThread().getName() + ANSI_RESET + 
+		 " : Response sent, thread lifecycle ends at : " + timestamp);
 	 
 	}
 }

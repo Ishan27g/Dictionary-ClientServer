@@ -27,7 +27,6 @@ public class MessageStream_client extends MessageStream{
 			System.exit(1);
 		}
 		super.set_IO_stream(sock);
-		
 	}
 	
 	public String getServerIP() {

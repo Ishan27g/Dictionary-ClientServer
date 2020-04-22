@@ -21,22 +21,18 @@ public class FileWriterCSV {
                 bw.newLine();
                 entries++;
             }
-            
             bw.flush();
  
         }catch(IOException e){
-            e.printStackTrace();
+            System.out.println("Error in saving data to file " + csvFile);
         }finally{
-            
             try{
-                //always close the writer
                 bw.close();
             }catch(Exception e){
-
+                System.out.println("Error in closing file " + csvFile);
             }
         }
     }
-
     public int close(){
         return entries;
     }

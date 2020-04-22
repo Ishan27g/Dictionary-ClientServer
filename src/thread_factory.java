@@ -16,7 +16,7 @@ public class thread_factory implements ThreadFactory {
    
    public Thread newThread(Runnable r) {
 	   
-     String threadName = name + " : " + threadNo.incrementAndGet();
+     String threadName = name  + threadNo.incrementAndGet();
      return new Thread(r,threadName );
    }
 }

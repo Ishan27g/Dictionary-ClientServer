@@ -8,7 +8,7 @@ import java.awt.EventQueue;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-public class client {
+public class DictionaryClient {
 
 	static private String ip = null;
 	static private int port;

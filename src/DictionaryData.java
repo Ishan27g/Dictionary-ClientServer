@@ -14,6 +14,11 @@ public class DictionaryData {
 	private FileReaderCSV file_data = null;
 	private static String file_path;
 	
+
+	public HashMap<String,String> getDictionaryMap(){
+		return ServerDictionary;
+	}
+
 	public void load_dictionary() {
 		file_data = new FileReaderCSV(file_path, ServerDictionary);
 	}
@@ -22,6 +27,7 @@ public class DictionaryData {
 		file_path = new String(path);
 		ServerDictionary = new HashMap<String,String>();
 		load_dictionary();
+	
 	}
 	
 	private boolean lookupKey(String key) {
@@ -61,12 +67,12 @@ public class DictionaryData {
 	public int getSize() {
 		return ServerDictionary.size();
 	}
-
 	public int save_file(String fileName ){
 		System.out.println("saving file");
 		FileWriterCSV save_file = new FileWriterCSV(fileName, ServerDictionary);
 		return save_file.close();
-		//ServerDictionary.sav
-	}
+}
+
+	
 	
 }

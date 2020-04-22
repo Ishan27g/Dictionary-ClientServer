@@ -27,8 +27,6 @@ public class FileReaderCSV {
                 String[] field = line.split(cvsSplitBy, 3);
                 field[0] = field[0].replace("\"", "");
                 field[2] = field[2].replace("\"", "");
-                
-                //System.out.println("key = " + field[0] + " , val =" + field[2] + "");
                 ServerDictionary.put(field[0], field[2]);
             }
 

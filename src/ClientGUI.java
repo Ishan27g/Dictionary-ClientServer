@@ -134,30 +134,62 @@ public class ClientGUI {
 				
 				String inputWord = JOptionPane.showInputDialog(frame.getContentPane(), "Word : ");
      	        JOptionPane.showMessageDialog(frame.getContentPane(), "User entered :\n " + inputWord);
-
+				if(inputWord == null || inputWord.isEmpty()){
+					JOptionPane.showMessageDialog(frame.getContentPane(), "Cannot enter an empty string");
+					return;
+				}
+				if(inputWord.contains(" ")){
+					JOptionPane.showMessageDialog(frame.getContentPane(), "Only a single word is allowed");
+					return;
+				}
+				if(inputWord.matches(".*\\d.*") ==  true){
+					JOptionPane.showMessageDialog(frame.getContentPane(), "Numbers are not allowed");
+					return;
+				}
      		   	String inputMeaning = JOptionPane.showInputDialog(frame.getContentPane(), "Definition : ");
-     	        JOptionPane.showMessageDialog(frame.getContentPane(), "User entered :\n" + inputMeaning);
-      	      
-     	        
-     	        handle_rsp(messageAction.WORD_ADD, inputWord, inputMeaning);
-     	        xml_parser xml = new xml_parser(client.readRsp());
-     	        text1.setText(xml.get_element("word"));
-     	       
+				 if(inputMeaning == null || inputMeaning.isEmpty()){
+					JOptionPane.showMessageDialog(frame.getContentPane(), "Cannot enter an empty string");
+					return;
+				}
+				if(inputMeaning.matches(".*\\d.*") ==  true){
+					JOptionPane.showMessageDialog(frame.getContentPane(), "Numbers are not allowed");
+					return;
+				}
+				JOptionPane.showMessageDialog(frame.getContentPane(), "User entered :\n" + inputMeaning);
+
+				handle_rsp(messageAction.WORD_ADD, inputWord, inputMeaning);
+				xml_parser xml = new xml_parser(client.readRsp());
+				String display = new String("Status : " );
+				display = display + xml.get_element("word");
+     	        text1.setText(display);
      	       
 			}
 		});
 		GetButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
 				text1.setText("");
 				String inputWord = JOptionPane.showInputDialog(frame.getContentPane(), "Enter the word : ");
-     	        JOptionPane.showMessageDialog(frame.getContentPane(), "You entered :\n" + inputWord);
-     	       
-     	        
-      	       handle_rsp(messageAction.WORD_GET, inputWord, "");
+				if(inputWord == null || inputWord.isEmpty()){
+					JOptionPane.showMessageDialog(frame.getContentPane(), "Cannot enter an empty string");
+					return;
+				}
+				if(inputWord.contains(" ")){
+					JOptionPane.showMessageDialog(frame.getContentPane(), "Only a single word is allowed");
+					return;
+				}
+				if(inputWord.matches(".*\\d.*") ==  true){
+					JOptionPane.showMessageDialog(frame.getContentPane(), "Numbers are not allowed");
+					return;
+				}
+				JOptionPane.showMessageDialog(frame.getContentPane(), "You entered :\n" + inputWord);
+     	        handle_rsp(messageAction.WORD_GET, inputWord, "");
 
-     	        xml_parser xml = new xml_parser(client.readRsp());
-    	        text1.setText(xml.get_element("content"));
+				xml_parser xml = new xml_parser(client.readRsp());
+				String display = new String("Word : " + inputWord);
+				display = display + "\nMeaning : " + xml.get_element("content");
+    	        text1.setText(display);
     	     
 			}
 		});
@@ -167,11 +199,24 @@ public class ClientGUI {
 				text1.setText("");
 				String inputWord = JOptionPane.showInputDialog(frame.getContentPane(), "Word : ");
      	        JOptionPane.showMessageDialog(frame.getContentPane(), "User entered :\n" + inputWord);
-    	        
+				 if(inputWord == null || inputWord.isEmpty()){
+					JOptionPane.showMessageDialog(frame.getContentPane(), "Cannot enter an empty string");
+					return;
+				}
+				if(inputWord.contains(" ")){
+					JOptionPane.showMessageDialog(frame.getContentPane(), "Only a single word is allowed");
+					return;
+				}
+				if(inputWord.matches(".*\\d.*") ==  true){
+					JOptionPane.showMessageDialog(frame.getContentPane(), "Numbers are not allowed");
+					return;
+				}
        	        handle_rsp(messageAction.WORD_DELETE, inputWord, "");
 
-    	        xml_parser xml = new xml_parser(client.readRsp());
-     	        text1.setText(xml.get_element("word"));
+				xml_parser xml = new xml_parser(client.readRsp());
+				String display = new String("Status : " );
+				display = display + xml.get_element("word");
+     	        text1.setText(display);
      	       
      	    }
 		});
