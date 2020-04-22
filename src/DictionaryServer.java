@@ -5,6 +5,7 @@
  * It invokes various worker threads to deal with concurrent clients
  * 
  */
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.concurrent.ExecutorService;
@@ -25,7 +26,7 @@ public class DictionaryServer {
 		dictionary = new DictionaryData("../dictionary.csv");
 
 		if (args.length != 1) {
-			System.out.println("Correct command is  java –jar DictionaryServer.jar <port> ");
+			System.out.println("Correct command is java –jar DictionaryServer.jar <port> ");
 			System.exit(0);
 		}
 		int port = Integer.parseInt(args[0]);
@@ -44,23 +45,16 @@ public class DictionaryServer {
             @Override
             public void run()
             {
-            System.out.println("\nShutting down server");
-            server_up = false;
-            if(server_socket.isClosed() == false){
-            try {
-            server_socket.close();
-            } catch (IOException e) {
-            System.out.println("Error shutting down server");
-            }
-            }
-            if(Enable_Th_pool) {
-            if(pool.isShutdown() == false){
-            pool.shutdown();
-            }
-            }
+				System.out.println("\nShutting down server");
+				server_up = false;
 				int entries_saved = dictionary.save_file("../dictionary.csv");
 				System.out.println("saved dictionary with entries : " + entries_saved);
-				System.exit(0);
+				try {
+					server_socket.close();
+				} catch (IOException e) {
+					System.out.println("Error shutting down server");
+				}
+				Runtime.getRuntime().halt(0);
             };
         });
 		
@@ -107,11 +101,13 @@ public class DictionaryServer {
         	while(server_up) {
 				MessageStream server = new MessageStream();
 				server.setServerSocket(server_socket);
-			
-				server.accept_connections();
 				
-				Runnable server_instance = new serviceThread(server, dictionary);
-				pool.execute(server_instance);
+				if(!server_socket.isClosed()){
+					server.accept_connections();
+				
+					Runnable server_instance = new serviceThread(server, dictionary);
+					pool.execute(server_instance);
+				}
     		}
 		}		
 		if(server_socket.isClosed() == false){

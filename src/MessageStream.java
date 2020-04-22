@@ -24,7 +24,11 @@ public class MessageStream {
 	private String rspMsg;
 	
 	public String get_client_id() {
-		return sock.getInetAddress().toString();
+		if (sock.isConnected()){
+			return sock.getInetAddress().toString();
+		}
+		else
+			return " ";
 	}
 	
 	private void ReadMsg() {
@@ -112,7 +116,7 @@ public class MessageStream {
 			sock = server_socket.accept();
 		}
 		catch (IOException e){
-			System.out.println("unable to accept connection");
+			//System.out.println("unable to accept connection");
 			return;
 		}
 		set_IO_stream(sock);
