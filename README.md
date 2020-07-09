@@ -7,7 +7,7 @@ To launch client
 1.	cd DictionaryClient/
 2.	java -jar DictionaryClient.jar <server ip> <port>
   
-  
+3 different types of threads are implemented. Check corresponding branch.
 
 Notice:
 Do not copy this for University submissions.
