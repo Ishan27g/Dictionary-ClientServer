@@ -6,3 +6,8 @@ To launch server
 To launch client
 1.	cd DictionaryClient/
 2.	java -jar DictionaryClient.jar <server ip> <port>
+  
+  
+
+Notice:
+Do not copy this for University submissions.
